@@ -7,6 +7,18 @@ on:
 
 jobs:
   builds:
-    runs-on: ubuntu-lates
-    steps:
-      - run: echo "This workflow works ehy!"
+    runs-on: ubuntu-latest
+       steps:
+      - name: Check out code 🛎
+        uses: actions/checkout@v2
+
+      - name: Setup .Net 5 🔧
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '5.0.0'
+
+      - name: Restore dependencies 🛠
+        run: dotnet Restore
+
+      - name: Build App 🚀
+        run:  dotnet Build -c Release --no-restore
