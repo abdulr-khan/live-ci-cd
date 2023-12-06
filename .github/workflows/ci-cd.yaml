@@ -1,0 +1,12 @@
+name: Continuous Integration and Deployment
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  builds:
+    runs-on: ubuntu-lates
+    steps:
+      - run: echo "This workflow works ehy!"
