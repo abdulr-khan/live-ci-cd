@@ -1,12 +1,13 @@
 name: Continuous Integration and Deployment
 
+
 on:
   push:
     branches:
       - "main"
 
 env:
-  DOTNET_VERSION: '5.0.x'
+  DOTNET_VERSION: '6.0.x'
   AZURE_WEBAPP_NAME: app-aspwebapi-centralus
 
 jobs:
@@ -16,7 +17,7 @@ jobs:
       - name: Check out code 🛎
         uses: actions/checkout@v4
 
-      - name: Setup .Net 5 🔧
+      - name: Setup .Net 6 🔧
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -29,7 +30,7 @@ jobs:
 
       - name: Run automated test 🧪
         run:  dotnet test -c Release --no-build
-        
+
       - name: Publish app 📰
         run: dotnet publish -c Release -o ./out
 
