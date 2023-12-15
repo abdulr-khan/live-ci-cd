@@ -9,6 +9,9 @@ on:
 env:
   DOTNET_VERSION: '6.0.x'
   AZURE_WEBAPP_NAME: app-aspwebapi-centralus
+  SQL_PWD: 'Pass~w0r8'
+
+
 
 jobs:
   builds:
@@ -22,13 +25,24 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Sart SQL Server
+        run: |
+           docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{env.SQL_PWD}}" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:latest
+
       - name: Restore dependencies 🛠
         run: dotnet Restore
+
+      - name: Sleep for 5 seconds 🛌
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '5s'
 
       - name: Build App 🚀
         run:  dotnet build -c Release #--no-restore , there is an issue with nuget restoring the project.assets.json
 
       - name: Run automated test 🧪
+        env: 
+            ConnectionStrings__DefaultConnection: Server=localhost;Database=CiCdDemo_Test;User=sa;Password=${{env.SQL_PWD}}
         run:  dotnet test -c Release --no-build
 
       - name: Publish app 📰
