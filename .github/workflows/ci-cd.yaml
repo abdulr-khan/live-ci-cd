@@ -25,7 +25,7 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Sart SQL Server
+      - name: Start SQL Server
         run: |
            docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{env.SQL_PWD}}" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:latest
 
