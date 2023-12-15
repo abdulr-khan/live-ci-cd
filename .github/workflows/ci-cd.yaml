@@ -35,10 +35,10 @@ jobs:
           time: '5s'
 
       - name: Restore dependencies 🛠
-        run: dotnet Restore
+        run: dotnet restore
 
       - name: Build App 🚀
-        run:  dotnet build -c Release #--no-restore , there is an issue with nuget restoring the project.assets.json
+        run:  dotnet build -c Release --no-restore #, there is an issue with nuget restoring the project.assets.json
 
       - name: Run automated test 🧪
         env: 
