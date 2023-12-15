@@ -29,13 +29,13 @@ jobs:
         run: |
            docker run -d -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{env.SQL_PWD}}" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:latest
 
-      - name: Restore dependencies 🛠
-        run: dotnet Restore
-
       - name: Sleep for 5 seconds 🛌
         uses: jakejarvis/wait-action@master
         with:
           time: '5s'
+
+      - name: Restore dependencies 🛠
+        run: dotnet Restore
 
       - name: Build App 🚀
         run:  dotnet build -c Release #--no-restore , there is an issue with nuget restoring the project.assets.json
@@ -46,7 +46,7 @@ jobs:
         run:  dotnet test -c Release --no-build
 
       - name: Publish app 📰
-        run: dotnet publish -c Release -o ./out
+        run: dotnet publish AnimalCountingDatabase.Api -c Release -o ./out
 
       - name: Deploy to Azure Web Apps 🚢
         uses: azure/webapps-deploy@v2
